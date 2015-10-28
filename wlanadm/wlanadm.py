@@ -1,6 +1,6 @@
 import sys
 
-from plumbum import cli
+from plumbum import cli, local
 
 from plumbum.cmd import networksetup
 
@@ -8,8 +8,7 @@ class Wlanadm(cli.Application):
     """Wi-Fi configuration manager"""
     PROGNAME = "wlanadm"
     VERSION = "0.0.1"
-
-    verbosity = cli.Flag(["v", "verbose"], help = "Verbosity level")
+    verbosity = cli.Flag(["v", "verbose"], help = "Verbosity level",)
 
     def main(self, *args):
         if args:
@@ -24,8 +23,8 @@ class Wlanadm(cli.Application):
 class WlanadmList(cli.Application):
     """Lists all network interfaces"""
 
-    wifi_only = cli.Flag("w", help = "Listis ony Wi-Fi interfaces")
-    net_only = cli.Flag("n", help = "Lists networks instead of interfaces")
+    wifi_only = cli.Flag("w", help = "Listis only Wi-Fi interfaces")
+    net_only = cli.Flag("n", help = "Lists networks instead of interfaces (only available Wi-Fi networks)")
 
     def main(self):
         print(networksetup["-listallhardwareports"]())
@@ -34,14 +33,14 @@ class WlanadmList(cli.Application):
 class WlanadmOn(cli.Application):
     """Starts the selected network interface"""
 
-    def main(self, netname):
+    def main(self, ifname):
         pass
 
 @Wlanadm.subcommand("off")
 class WlanadmOff(cli.Application):
     """Stops the selected network interface"""
 
-    def main(self, netname):
+    def main(self, ifname):
         pass
 
 @Wlanadm.subcommand("join")
