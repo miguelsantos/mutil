@@ -23,11 +23,13 @@ class Wlanadm(cli.Application):
     def wifi_only(self):
         """Lists only WiFi interfaces"""
         print("wifi")
+        # @TODO: Implement the actual function, research parsing options
 
     @cli.switch("n", requires = ["l"], excludes = ["w"])
     def netw_only(self):
-        """Lists networks instead of interfaces (only available Wi-Fi networks)"""
+        """Lists networks instead of interfaces (only Wi-Fi networks)"""
         print("netw")
+        # @TODO: Implement the actual function, based on airport utility
 
     def main(self, *args):
         if args:
@@ -37,16 +39,6 @@ class Wlanadm(cli.Application):
             print("No command given")
             return 1
 
-
-@Wlanadm.subcommand("list")
-class WlanadmList(cli.Application):
-    """Lists all network interfaces"""
-
-    wifi_only = cli.Flag("w", help = "Listis only Wi-Fi interfaces")
-    net_only = cli.Flag("n", help = "Lists networks instead of interfaces (only available Wi-Fi networks)")
-
-    def main(self):
-        print(networksetup["-listallhardwareports"]())
 
 @Wlanadm.subcommand("on")
 class WlanadmOn(cli.Application):
