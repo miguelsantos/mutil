@@ -8,7 +8,26 @@ class Wlanadm(cli.Application):
     """Wi-Fi configuration manager"""
     PROGNAME = "wlanadm"
     VERSION = "0.0.1"
-    verbosity = cli.Flag(["v", "verbose"], help = "Verbosity level",)
+
+    verbosity = cli.Flag(["v", "verbose"], help = "Verbosity level")
+
+    #Listing group
+    #lists_group = "Listing switches"
+
+    @cli.switch("l")
+    def list(self):
+        """Lists all network interfaces"""
+        print(networksetup("-listallhardwareports"))
+
+    @cli.switch("w", requires =["l"], excludes = ["n"])
+    def wifi_only(self):
+        """Lists only WiFi interfaces"""
+        print("wifi")
+
+    @cli.switch("n", requires = ["l"], excludes = ["w"])
+    def netw_only(self):
+        """Lists networks instead of interfaces (only available Wi-Fi networks)"""
+        print("netw")
 
     def main(self, *args):
         if args:
